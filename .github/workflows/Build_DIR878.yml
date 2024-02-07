@@ -71,7 +71,7 @@ jobs:
         git clone --recurse-submodules https://github.com/gw826943555/openwrt-packages-misc package/misc
 
         git clone --depth=1 https://github.com/fw876/helloworld.git package/helloworld
-        rm -rf package/misc/shadowsocks-rust
+        rm -rf package/helloworld/shadowsocks-rust
         
     - name: Update & Install feeds
       working-directory: ./openwrt
