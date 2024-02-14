@@ -30,7 +30,13 @@ jobs:
         sudo rm -rf \
           /usr/share/dotnet \
           /etc/mysql \
-          /etc/php
+          /etc/php \
+          /usr/local/lib/android \
+          /opt/ghc \
+          /usr/local/share/powershell \
+          /usr/share/swift \
+          /usr/local/.ghcup \
+          /usr/lib/jvm || true
         sudo -E apt-get -y purge \
           azure-cli \
           ghc* \
