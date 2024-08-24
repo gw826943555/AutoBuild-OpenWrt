@@ -72,6 +72,9 @@ jobs:
 
         git clone --depth=1 https://github.com/fw876/helloworld.git package/helloworld
         rm -rf package/misc/shadowsocks-rust
+
+        git clone https://github.com/immortalwrt/homeproxy package/luci-app-homeproxy
+        git clone https://github.com/morytyann/OpenWrt-mihomo package/openwrt-mihomo
         
     - name: Update & Install feeds
       working-directory: ./openwrt
