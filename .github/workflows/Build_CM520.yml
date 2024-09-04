@@ -70,9 +70,6 @@ jobs:
         # 添加feeds
         git clone --recurse-submodules https://github.com/gw826943555/openwrt-packages-misc package/misc
 
-        git clone --depth=1 https://github.com/fw876/helloworld.git package/helloworld
-        rm -rf package/misc/shadowsocks-rust
-
         git clone https://github.com/immortalwrt/homeproxy package/luci-app-homeproxy
         git clone https://github.com/morytyann/OpenWrt-mihomo package/openwrt-mihomo
         
