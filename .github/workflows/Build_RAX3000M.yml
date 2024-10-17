@@ -17,6 +17,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Cache Build
+      uses: klever1988/cachewrtbuild@main
+      with:
+        ccache: 'true'
+        mixkey: 'mediatek'
+        prefix: 'openwrt'
+
     - name: Checkout
       uses: actions/checkout@master
 
