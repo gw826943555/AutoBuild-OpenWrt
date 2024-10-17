@@ -17,13 +17,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Cache Build
-      uses: klever1988/cachewrtbuild@main
-      with:
-        ccache: 'true'
-        mixkey: 'mediatek'
-        prefix: 'openwrt'
-
     - name: Checkout
       uses: actions/checkout@master
 
@@ -94,7 +87,14 @@ jobs:
         [ -e $CONFIG_FILE ] && mv $CONFIG_FILE openwrt/.config
         chmod +x ./customize.sh && ./customize.sh
         cd openwrt && make defconfig
-        
+    
+    - name: Cache Build
+      uses: klever1988/cachewrtbuild@main
+      with:
+        ccache: 'true'
+        mixkey: 'mediatek'
+        prefix: 'openwrt'
+
     - name: Download package
       working-directory: ./openwrt
       run: |
