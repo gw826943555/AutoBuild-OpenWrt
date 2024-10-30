@@ -60,7 +60,6 @@ jobs:
         CONFIG_FILE: '7981r128.config'
       run: |
         [ -e $CONFIG_FILE ] && mv $CONFIG_FILE openwrt/.config
-        chmod +x ./customize.sh && ./customize.sh
         cd openwrt && make defconfig
     
     - name: Cache Build
