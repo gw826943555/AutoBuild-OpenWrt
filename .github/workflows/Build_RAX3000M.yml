@@ -76,8 +76,8 @@ jobs:
         echo -e "$(nproc) thread build."
         make -j$(nproc) V=s
 
-    - name : Upload artifact
-      uses: actions/upload-artifact@master
+    - uses: d1ceward/release-upload-action@v4
       with:
-        name: OpenWrt
-        path: openwrt/bin/targets/mediatek/filogic/openwrt-*
+        token: ${{ secrets.GITHUB_TOKEN }}
+        files: |
+          openwrt/bin/targets/mediatek/filogic/openwrt-*
