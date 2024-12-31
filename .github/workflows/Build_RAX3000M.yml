@@ -76,8 +76,13 @@ jobs:
         echo -e "$(nproc) thread build."
         make -j$(nproc) V=s
 
+    - name: Generate Release Tag
+      id: tag
+      run: |
+        echo "release_tag=$(date +"%Y.%m.%d-%H%M")-RAX3000M">> $GITHUB_OUTPUT
+
     - uses: d1ceward/release-upload-action@v4
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         files: |
-          openwrt/bin/targets/mediatek/filogic/openwrt-*
+          openwrt/bin/targets/*/*/openwrt-*
