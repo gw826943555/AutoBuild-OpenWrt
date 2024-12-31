@@ -74,21 +74,14 @@ jobs:
 
     - name: Generate release tag
       id: generate_release_tag
-      uses: alexvingg/next-release-tag@v1.0.3
+      uses: amitsingh-007/next-release-tag@main
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        tag_prefix: 'rax3000m'
+        tag_prefix: 'dir878-'
+        tag_template: 'yyyy.mm.dd.i'
 
     - name: Create Release
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      uses: softprops/action-gh-release@v2
       with:
-        tag_name: ${{ steps.generate_release_tag.outputs.release_tag }}
-        release_name: Release ${{ steps.generate_release_tag.outputs.release_tag }}
-
-    - uses: d1ceward/release-upload-action@v4
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
         files: |
           openwrt/bin/targets/*/*/openwrt-*
