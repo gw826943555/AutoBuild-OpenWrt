@@ -83,5 +83,7 @@ jobs:
     - name: Create Release
       uses: softprops/action-gh-release@v2
       with:
+        name: Release ${{ steps.generate_release_tag.outputs.next_release_tag }}
+        tag_name: ${{ steps.generate_release_tag.outputs.next_release_tag }}
         files: |
           openwrt/bin/targets/*/*/openwrt-*
