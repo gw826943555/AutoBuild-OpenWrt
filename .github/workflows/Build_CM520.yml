@@ -80,3 +80,15 @@ jobs:
       with:
         name: OpenWrt
         path: openwrt/bin/targets/*
+
+    - name: Generate release tag
+      id: release_tag
+      run: |
+        echo "release_tag=cm520-$(date +"%Y.%m.%d-%H%M")">> $GITHUB_OUTPUT
+
+    - name: Create Release
+      uses: softprops/action-gh-release@v2
+      with:
+        tag_name: ${{ steps.release_tag.outputs.release_tag }}
+        files: |
+          openwrt/bin/targets/*/*/openwrt-*

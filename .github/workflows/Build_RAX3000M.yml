@@ -76,6 +76,12 @@ jobs:
         echo -e "$(nproc) thread build."
         make -j$(nproc) V=s
 
+    - name : Upload artifact
+      uses: actions/upload-artifact@master
+      with:
+        name: OpenWrt
+        path: openwrt/bin/targets/*
+        
     - name: Generate release tag
       id: release_tag
       run: |
