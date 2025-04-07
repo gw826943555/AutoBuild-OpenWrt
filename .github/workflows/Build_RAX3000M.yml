@@ -85,7 +85,7 @@ jobs:
     - name: Generate release tag
       id: release_tag
       run: |
-        echo "release_tag=rax3000m-$(date +"%Y.%m.%d-%H%M")">> $GITHUB_OUTPUT
+        echo "release_tag=OpenWrt-rax3000m-$(date +"%Y.%m.%d-%H%M")">> $GITHUB_OUTPUT
 
     - name: Create Release
       uses: softprops/action-gh-release@v2

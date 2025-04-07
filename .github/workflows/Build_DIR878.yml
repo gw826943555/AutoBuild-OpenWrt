@@ -81,7 +81,7 @@ jobs:
     - name: Generate release tag
       id: release_tag
       run: |
-        echo "release_tag=dir878-$(date +"%Y.%m.%d-%H%M")">> $GITHUB_OUTPUT
+        echo "release_tag=OpenWrt-dir878-$(date +"%Y.%m.%d-%H%M")">> $GITHUB_OUTPUT
 
     - name: Create Release
       uses: softprops/action-gh-release@v2
