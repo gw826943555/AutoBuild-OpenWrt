@@ -1,0 +1,82 @@
+#=================================================
+# Description: Build OpenWrt using GitHub Actions
+# Lisence: MIT
+# Author: eSirPlayground
+# Youtube Channel: https://goo.gl/fvkdwm 
+#=================================================
+
+name: Build_Test
+
+# Add a button to trigger the workflow
+on: 
+  repository_dispatch:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Maximize build space
+      uses: easimon/maximize-build-space@master
+      with:
+        swap-size-mb: 1024
+        remove-dotnet: 'true'
+        remove-android: 'true'
+        remove-haskell: 'true'
+        remove-codeql: 'true'
+        remove-docker-images: 'true'
+        
+    - name: Checkout
+      uses: actions/checkout@master
+
+    - name: Check disk space
+      run: |
+        df . -h
+
+    - name: Clone source code
+      env: 
+        REPO_URL: https://github.com/gw826943555/openwrt
+        REPO_BRANCH: main
+      run: |
+        git clone --depth 1 $REPO_URL -b $REPO_BRANCH openwrt
+        cd openwrt
+
+        # 添加feeds
+        git clone --recurse-submodules https://github.com/gw826943555/openwrt-packages-misc package/misc
+
+        git clone https://github.com/immortalwrt/homeproxy package/luci-app-homeproxy
+        git clone https://github.com/gw826943555/openwrt-easytier.git package/openwrt-easytier
+        
+    - name: Update & Install feeds
+      working-directory: ./openwrt
+      run: |
+        ./scripts/feeds update -a
+        ./scripts/feeds install -a
+
+    - name: Configuration Customization - Build_Test
+      env:
+        CONFIG_FILE: 'test.config'
+      run: |
+        [ -e $CONFIG_FILE ] && mv $CONFIG_FILE openwrt/.config
+        chmod +x ./customize.sh && ./customize.sh
+        cd openwrt && make defconfig
+
+    - name: Cache Build
+      uses: klever1988/cachewrtbuild@main
+      with:
+        ccache: 'true'
+        mixkey: 'ipq40xx'
+        prefix: 'openwrt'
+
+    - name: Build firmware
+      working-directory: ./openwrt
+      run: |
+        echo -e "$(nproc) thread build."
+        make -j$(nproc) V=s
+
+    - name : Upload artifact
+      uses: actions/upload-artifact@master
+      with:
+        name: OpenWrt
+        path: openwrt/bin/targets/*
