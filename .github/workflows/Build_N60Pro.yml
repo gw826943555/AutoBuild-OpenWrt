@@ -52,6 +52,7 @@ jobs:
         git clone https://github.com/timsaya/luci-app-bandix.git pacakge/luci-app-bandix
         git clone https://github.com/muink/luci-app-natmapt.git package/luci-app-natmapt
         git clone https://github.com/4IceG/luci-app-crontab-wizard.git package/luci-app-crontab-wizard
+        git clone https://github.com/muink/openwrt-natmapt.git pacakge/openwrt-natmapt
         
     - name: Update & Install feeds
       working-directory: ./openwrt
