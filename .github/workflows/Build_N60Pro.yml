@@ -48,6 +48,10 @@ jobs:
         git clone https://github.com/muink/openwrt-chinadns-ng package/chinadns-ng
         git clone https://github.com/immortalwrt/homeproxy package/luci-app-homeproxy
         git clone https://github.com/yichya/luci-app-xray package/luci-app-xray
+        git clone https://github.com/timsaya/openwrt-bandix.git package/openwrt-bandix
+        git clone https://github.com/timsaya/luci-app-bandix.git pacakge/luci-app-bandix
+        git clone https://github.com/muink/luci-app-natmapt.git package/luci-app-natmapt
+        git clone https://github.com/4IceG/luci-app-crontab-wizard.git package/luci-app-crontab-wizard
         
     - name: Update & Install feeds
       working-directory: ./openwrt
