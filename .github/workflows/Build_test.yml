@@ -47,6 +47,7 @@ jobs:
 
         git clone https://github.com/immortalwrt/homeproxy package/luci-app-homeproxy
         git clone https://github.com/gw826943555/openwrt-easytier.git package/openwrt-easytier
+        git clone https://github.com/Tokisaki-Galaxy/luci-app-tailscale-community.git package/luci-app-tailscale-community
         
     - name: Update & Install feeds
       working-directory: ./openwrt
