@@ -54,6 +54,7 @@ jobs:
         git clone https://github.com/4IceG/luci-app-crontab-wizard.git package/luci-app-crontab-wizard
         git clone https://github.com/muink/openwrt-natmapt.git pacakge/openwrt-natmapt
         git clone https://github.com/gw826943555/openwrt-easytier.git package/openwrt-easytier
+        git clone https://github.com/kenzok8/openwrt-clashoo.git package/openwrt-clashoo
         
     - name: Update & Install feeds
       working-directory: ./openwrt
