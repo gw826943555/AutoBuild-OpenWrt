@@ -51,6 +51,8 @@ jobs:
         git clone https://github.com/4IceG/luci-app-crontab-wizard.git package/luci-app-crontab-wizard
         git clone https://github.com/timsaya/openwrt-bandix.git package/openwrt-bandix
         git clone https://github.com/timsaya/luci-app-bandix.git package/luci-app-bandix
+        git clone https://github.com/huchd0/luci-app-netwiz.git package/luci-app-netwiz
+        git clone https://github.com/stackia/rtp2httpd.git package/openwrt-rtp2httpd
         
     - name: Update & Install feeds
       working-directory: ./openwrt
