@@ -38,7 +38,7 @@ jobs:
         remove-docker-images: 'true'
     
     - name: Checkout
-      uses: actions/checkout@master
+      uses: actions/checkout@v4
 
     - name: Clone source code
       env: 
@@ -82,11 +82,24 @@ jobs:
         echo -e "$(nproc) thread build."
         make -j$(nproc) V=s
 
+    - name: Collect firmware
+      run: |
+        mkdir -p firmware/${{ matrix.device }}
+        shopt -s nullglob
+        files=(openwrt/bin/targets/airoha/*/openwrt-*)
+        if [ ${#files[@]} -eq 0 ]; then
+          echo "::error::No firmware files found under openwrt/bin/targets/airoha/"
+          ls -laR openwrt/bin/targets/airoha/ || true
+          exit 1
+        fi
+        cp -v "${files[@]}" firmware/${{ matrix.device }}/
+        ls -la firmware/${{ matrix.device }}/
+
     - name: Upload artifact
-      uses: actions/upload-artifact@master
+      uses: actions/upload-artifact@v4
       with:
         name: OpenWrt-${{ matrix.device }}
-        path: openwrt/bin/targets/*
+        path: firmware/${{ matrix.device }}/
 
   release:
     needs: build
@@ -98,8 +111,20 @@ jobs:
     - name: Download artifacts
       uses: actions/download-artifact@v4
       with:
+        pattern: OpenWrt-*
         path: artifacts
-        merge-multiple: true
+
+    - name: Prepare release files
+      run: |
+        mkdir -p release
+        find artifacts -type f -name 'openwrt-*' -exec cp -v {} release/ \;
+        echo "Release files:"
+        ls -la release/
+        if [ -z "$(ls -A release)" ]; then
+          echo "::error::No firmware files found in downloaded artifacts"
+          find artifacts -type f | head -50
+          exit 1
+        fi
 
     - name: Generate release tag
       id: release_tag
@@ -107,8 +132,9 @@ jobs:
         echo "release_tag=OpenWrt-xg-040g-$(date +"%Y.%m.%d-%H%M")" >> $GITHUB_OUTPUT
 
     - name: Create Release
-      uses: softprops/action-gh-release@v2
-      with:
-        tag_name: ${{ steps.release_tag.outputs.release_tag }}
-        files: |
-          artifacts/**/*
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: |
+        gh release create "${{ steps.release_tag.outputs.release_tag }}" \
+          --title "${{ steps.release_tag.outputs.release_tag }}" \
+          release/*
