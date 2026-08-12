@@ -15,6 +15,16 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - device: md-ubi
+            target_file: xg-040g-md.target
+            mixkey: airoha-an7581
+          - device: mf-ubi
+            target_file: xg-040g-mf.target
+            mixkey: airoha-an7583
 
     steps:
     - name: Maximize build space
@@ -33,7 +43,7 @@ jobs:
     - name: Clone source code
       env: 
         REPO_URL: https://github.com/csharper2005/openwrt
-        REPO_BRANCH: main
+        REPO_BRANCH: nokia_xg-040g-mf-ubi
       run: |
         git clone --depth 1 $REPO_URL -b $REPO_BRANCH openwrt
         cd openwrt
@@ -51,11 +61,11 @@ jobs:
         ./scripts/feeds update -a
         ./scripts/feeds install -a
 
-    - name: Configuration Customization - Build_XG-040G
+    - name: Configuration Customization - Build_XG-040G (${{ matrix.device }})
       env:
-        CONFIG_FILE: 'xg-040g-mf.config'
+        TARGET_FILE: ${{ matrix.target_file }}
       run: |
-        [ -e $CONFIG_FILE ] && mv $CONFIG_FILE openwrt/.config
+        cat $TARGET_FILE xg-040g-common.config > openwrt/.config
         chmod +x ./customize.sh && ./customize.sh
         cd openwrt && make defconfig
 
@@ -63,7 +73,7 @@ jobs:
       uses: klever1988/cachewrtbuild@main
       with:
         ccache: 'true'
-        mixkey: 'airoha'
+        mixkey: ${{ matrix.mixkey }}
         prefix: 'openwrt'
         
     - name: Build firmware
@@ -72,20 +82,33 @@ jobs:
         echo -e "$(nproc) thread build."
         make -j$(nproc) V=s
 
-    - name : Upload artifact
+    - name: Upload artifact
       uses: actions/upload-artifact@master
       with:
-        name: OpenWrt
+        name: OpenWrt-${{ matrix.device }}
         path: openwrt/bin/targets/*
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+    - name: Download artifacts
+      uses: actions/download-artifact@v4
+      with:
+        path: artifacts
+        merge-multiple: true
 
     - name: Generate release tag
       id: release_tag
       run: |
-        echo "release_tag=OpenWrt-xg-040g-$(date +"%Y.%m.%d-%H%M")">> $GITHUB_OUTPUT
+        echo "release_tag=OpenWrt-xg-040g-$(date +"%Y.%m.%d-%H%M")" >> $GITHUB_OUTPUT
 
     - name: Create Release
       uses: softprops/action-gh-release@v2
       with:
         tag_name: ${{ steps.release_tag.outputs.release_tag }}
         files: |
-          openwrt/bin/targets/*/*/openwrt-*
+          artifacts/**/*
