@@ -22,9 +22,11 @@ jobs:
           - device: md-ubi
             target_file: xg-040g-md.target
             mixkey: airoha-an7581
+            patches_dir: patches/xg-040g-md
           - device: mf-ubi
             target_file: xg-040g-mf.target
             mixkey: airoha-an7583
+            patches_dir: ''
 
     steps:
     - name: Maximize build space
@@ -57,6 +59,11 @@ jobs:
         git clone https://github.com/muink/openwrt-chinadns-ng package/chinadns-ng
         git clone https://github.com/immortalwrt/homeproxy package/luci-app-homeproxy
         git clone https://github.com/huchd0/luci-app-netwiz.git package/luci-app-netwiz
+
+    - name: Apply patches (${{ matrix.device }})
+      if: matrix.patches_dir != ''
+      run: |
+        cp -v ${{ matrix.patches_dir }}/*.patch openwrt/package/boot/uboot-airoha/patches/
         
     - name: Update & Install feeds
       working-directory: ./openwrt
