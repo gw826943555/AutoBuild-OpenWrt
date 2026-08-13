@@ -53,9 +53,6 @@ jobs:
         # 添加feeds
         git clone --recurse-submodules https://github.com/gw826943555/openwrt-packages-misc package/misc
 
-        # 应用内核补丁: 修复 FM25G01B/FM25G02B Quad I/O 读时序(必须排在 pending 目录 401 支持补丁之后)
-        cp ../patches/xg-040g/437-v7.3-mtd-spinand-fmsh-fix-FM25G01B-FM25G02B-Quad-IO-read-dummy-cycles.patch target/linux/generic/pending-6.18/
-
         git clone https://github.com/muink/openwrt-chinadns-ng package/chinadns-ng
         git clone https://github.com/immortalwrt/homeproxy package/luci-app-homeproxy
         git clone https://github.com/huchd0/luci-app-netwiz.git package/luci-app-netwiz
