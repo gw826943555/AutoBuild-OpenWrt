@@ -44,8 +44,8 @@ jobs:
 
     - name: Clone source code
       env: 
-        REPO_URL: https://github.com/csharper2005/openwrt
-        REPO_BRANCH: nokia_xg-040g-mf-ubi
+        REPO_URL: https://github.com/gw826943555/openwrt
+        REPO_BRANCH: main
       run: |
         git clone --depth 1 $REPO_URL -b $REPO_BRANCH openwrt
         cd openwrt
@@ -63,7 +63,7 @@ jobs:
         git clone https://github.com/kenzok8/openwrt-clashoo.git package/openwrt-clashoo
         git clone https://github.com/looong-cat/luci-app-netbird.git package/luci-app-netbird
         git clone https://github.com/luanmuc/luci-app-airoha-npu.git package/luci-app-airoha-npu
-        
+
     - name: Apply patches (${{ matrix.device }})
       if: matrix.patches_dir != ''
       run: |
