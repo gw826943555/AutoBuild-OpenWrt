@@ -51,8 +51,14 @@ jobs:
         cd openwrt
 
         # 添加feeds
-        git clone --recurse-submodules https://github.com/gw826943555/openwrt-packages-misc package/misc
-
+        git clone https://github.com/gw826943555/luci-app-cpu-status-mini.git package/luci-app-cpu-status-mini
+        git clone https://github.com/gSpotx2f/luci-app-disks-info.git package/luci-app-disks-info
+        git clone https://github.com/gSpotx2f/luci-app-temp-status.git package/luci-app-temp-status
+        git clone https://github.com/gw826943555/openwrt-logview.git package/openwrt-logview
+        git clone https://github.com/gw826943555/openwrt_msd_lite.git package/openwrt_msd_lite
+        git clone https://github.com/gw826943555/openwrt-shadowsocks-rust.git package/openwrt-shadowsocks-rust
+        git clone https://github.com/gw826943555/openwrt-vlmcsd.git package/openwrt-vlmcsd
+        git clone https://github.com/gw826943555/openwrt-vsftpd.git package/openwrt-vsftpd
         git clone https://github.com/yichya/luci-app-xray package/luci-app-xray
         git clone https://github.com/timsaya/openwrt-bandix.git package/openwrt-bandix
         git clone https://github.com/timsaya/luci-app-bandix.git package/luci-app-bandix
