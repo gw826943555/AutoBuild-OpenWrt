@@ -60,6 +60,8 @@ jobs:
         git clone https://github.com/gw826943555/openwrt-easytier.git package/openwrt-easytier
         git clone https://github.com/kenzok8/openwrt-clashoo.git package/openwrt-clashoo
         git clone https://github.com/looong-cat/luci-app-netbird.git package/luci-app-netbird
+        git clone https://github.com/muink/openwrt-chinadns-ng package/chinadns-ng
+        git clone https://github.com/immortalwrt/homeproxy package/luci-app-homeproxy
         
     - name: Update & Install feeds
       working-directory: ./openwrt
