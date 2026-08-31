@@ -61,7 +61,9 @@ jobs:
         git clone https://github.com/kenzok8/openwrt-clashoo.git package/openwrt-clashoo
         git clone https://github.com/looong-cat/luci-app-netbird.git package/luci-app-netbird
         git clone https://github.com/muink/openwrt-chinadns-ng package/chinadns-ng
-        git clone https://github.com/immortalwrt/homeproxy package/luci-app-homeproxy
+        # git clone https://github.com/immortalwrt/homeproxy package/luci-app-homeproxy
+        git clone https://github.com/XiaoHaiSly/luci-app-homeproxy package/luci-app-homeproxy
+        git clone https://github.com/permails/luci-app-ariox package/luci-app-ariox
         
     - name: Update & Install feeds
       working-directory: ./openwrt
