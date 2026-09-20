@@ -69,7 +69,30 @@ jobs:
         git clone https://github.com/kenzok8/openwrt-clashoo.git package/openwrt-clashoo
         git clone https://github.com/looong-cat/luci-app-netbird.git package/luci-app-netbird
         git clone https://github.com/luanmuc/luci-app-airoha-npu.git package/luci-app-airoha-npu
+        git clone https://github.com/naoki66/airoha-xpon-luci.git package/airoha-xpon-luci
         
+    - name: Install airoha-xpon-luci (files overlay)
+      run: |
+        cd ./openwrt/
+        echo "=========================================="
+        echo "📦 集成 airoha-xpon-luci（PON 管理，files 覆盖机制）"
+        echo "=========================================="
+
+        git clone --depth=1 https://github.com/naoki66/airoha-xpon-luci.git /tmp/xpon-luci
+
+        if [ -d "/tmp/xpon-luci" ]; then
+          echo "✅ airoha-xpon-luci 克隆成功"
+          # 非 OpenWrt 包（无 Makefile），作为 files/ 覆盖打进 rootfs
+          mkdir -p ./files
+          cp -r /tmp/xpon-luci/etc /tmp/xpon-luci/lib /tmp/xpon-luci/usr /tmp/xpon-luci/www ./files/
+          chmod +x ./files/usr/bin/*.sh ./files/usr/bin/pon-* ./files/usr/bin/xpon-* ./files/etc/init.d/* ./files/etc/uci-defaults/* 2>/dev/null || true
+          echo "✅ 已复制到 ./files/ (OpenWrt files 覆盖机制)"
+          ls ./files/
+        else
+          echo "❌ 克隆失败"
+          exit 1
+        fi
+
     - name: Update & Install feeds
       working-directory: ./openwrt
       run: |
