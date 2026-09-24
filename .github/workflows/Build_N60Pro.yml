@@ -62,6 +62,7 @@ jobs:
         git clone https://github.com/looong-cat/luci-app-netbird.git package/luci-app-netbird
         git clone https://github.com/muink/openwrt-chinadns-ng package/chinadns-ng
         git clone https://github.com/immortalwrt/homeproxy package/luci-app-homeproxy
+        git clone https://github.com/stackia/rtp2httpd.git package/openwrt-rtp2httpd
         
     - name: Update & Install feeds
       working-directory: ./openwrt
