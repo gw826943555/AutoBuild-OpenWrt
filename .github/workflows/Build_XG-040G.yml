@@ -69,6 +69,7 @@ jobs:
         git clone https://github.com/kenzok8/openwrt-clashoo.git package/openwrt-clashoo
         git clone https://github.com/looong-cat/luci-app-netbird.git package/luci-app-netbird
         git clone https://github.com/luanmuc/luci-app-airoha-npu.git package/luci-app-airoha-npu
+        git clone https://github.com/stackia/rtp2httpd.git package/openwrt-rtp2httpd
 
     - name: Update & Install feeds
       working-directory: ./openwrt
