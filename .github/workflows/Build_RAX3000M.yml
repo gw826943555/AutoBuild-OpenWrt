@@ -53,6 +53,7 @@ jobs:
         git clone https://github.com/timsaya/luci-app-bandix.git package/luci-app-bandix
         git clone https://github.com/huchd0/luci-app-netwiz.git package/luci-app-netwiz
         git clone https://github.com/stackia/rtp2httpd.git package/openwrt-rtp2httpd
+        git clone https://github.com/looong-cat/luci-app-netbird.git package/luci-app-netbird
         
     - name: Update & Install feeds
       working-directory: ./openwrt
