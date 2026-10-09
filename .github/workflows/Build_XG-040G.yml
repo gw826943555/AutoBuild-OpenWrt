@@ -82,7 +82,6 @@ jobs:
         TARGET_FILE: ${{ matrix.target_file }}
       run: |
         cat $TARGET_FILE xg-040g-common.config > openwrt/.config
-        chmod +x ./customize.sh && ./customize.sh
         cd openwrt && make defconfig
 
     - name: Cache Build
