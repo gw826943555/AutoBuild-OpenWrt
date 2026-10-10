@@ -51,6 +51,8 @@ jobs:
         cd openwrt
 
         # 添加feeds
+        git clone https://github.com/muink/openwrt-chinadns-ng package/chinadns-ng
+        git clone https://github.com/immortalwrt/homeproxy package/luci-app-homeproxy
         git clone https://github.com/gw826943555/luci-app-cpu-status-mini.git package/luci-app-cpu-status-mini
         git clone https://github.com/gSpotx2f/luci-app-disks-info.git package/luci-app-disks-info
         git clone https://github.com/gSpotx2f/luci-app-temp-status.git package/luci-app-temp-status
