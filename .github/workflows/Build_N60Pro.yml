@@ -63,6 +63,7 @@ jobs:
         git clone https://github.com/muink/openwrt-chinadns-ng package/chinadns-ng
         git clone https://github.com/immortalwrt/homeproxy package/luci-app-homeproxy
         git clone https://github.com/stackia/rtp2httpd.git package/openwrt-rtp2httpd
+        git clone https://github.com/gw826943555/luci-app-bridged-ap.git package/luci-app-bridged-ap
         
     - name: Update & Install feeds
       working-directory: ./openwrt
