@@ -75,8 +75,6 @@ jobs:
         git clone https://github.com/looong-cat/luci-app-netbird.git package/luci-app-netbird
         git clone https://github.com/luanmuc/luci-app-airoha-npu.git package/luci-app-airoha-npu
         git clone https://github.com/stackia/rtp2httpd.git package/openwrt-rtp2httpd
-        git clone https://github.com/QiuSimons/luci-app-honk.git package/openwrt-honk
-        git clone https://github.com/QiuSimons/vmlinux-btf.git package/openwrt-vmlinux-btf
 
     - name: Update & Install feeds
       working-directory: ./openwrt
