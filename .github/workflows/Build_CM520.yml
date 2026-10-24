@@ -47,6 +47,8 @@ jobs:
 
         git clone https://github.com/immortalwrt/homeproxy package/luci-app-homeproxy
         git clone https://github.com/morytyann/OpenWrt-mihomo package/openwrt-mihomo
+        git clone https://github.com/looong-cat/luci-app-netbird.git package/luci-app-netbird
+        git clone https://github.com/gw826943555/shadowproxy.git package/shadowproxy
         
     - name: Update & Install feeds
       working-directory: ./openwrt
