@@ -15,18 +15,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - device: md-ubi
-            target_file: xg-040g-md.target
-            mixkey: airoha-an7581
-            patches_dir: patches/xg-040g-md
-          - device: mf-ubi
-            target_file: xg-040g-mf.target
-            mixkey: airoha-an7583
-            patches_dir: ''
 
     steps:
     - name: Maximize build space
@@ -82,44 +70,81 @@ jobs:
         ./scripts/feeds update -a
         ./scripts/feeds install -a
 
-    - name: Configuration Customization - Build_XG-040G (${{ matrix.device }})
+    # xg-040g-md (an7581) 与 xg-040g-mf (an7583) 属于不同 subtarget，
+    # 无法用 CONFIG_TARGET_MULTI_PROFILE 合并到一个 .config 中，
+    # 因此在同一个任务里依次构建：复用同一份源码、feeds 和已编译的公共软件包，
+    # 切换 subtarget 后只需重新编译对应 kernel 及目标相关包，无需 dirclean。
+    - name: Configuration Customization - Build_XG-040G (md-ubi)
       env:
-        TARGET_FILE: ${{ matrix.target_file }}
+        TARGET_FILE: xg-040g-md.target
       run: |
         cat $TARGET_FILE xg-040g-common.config > openwrt/.config
         cd openwrt && make defconfig
 
-    - name: Cache Build
+    - name: Cache Build (md-ubi)
       uses: klever1988/cachewrtbuild@main
       with:
         ccache: 'true'
-        mixkey: ${{ matrix.mixkey }}
+        mixkey: airoha-an7581
         prefix: 'openwrt'
         
-    - name: Build firmware
+    - name: Build firmware (md-ubi)
       working-directory: ./openwrt
       run: |
         echo -e "$(nproc) thread build."
         make -j$(nproc) V=s
 
-    - name: Collect firmware
+    - name: Collect firmware (md-ubi)
       run: |
-        mkdir -p firmware/${{ matrix.device }}
+        mkdir -p firmware/md-ubi
         shopt -s nullglob
-        files=(openwrt/bin/targets/airoha/*/openwrt-*)
+        files=(openwrt/bin/targets/airoha/an7581/openwrt-*)
         if [ ${#files[@]} -eq 0 ]; then
-          echo "::error::No firmware files found under openwrt/bin/targets/airoha/"
+          echo "::error::No firmware files found under openwrt/bin/targets/airoha/an7581/"
           ls -laR openwrt/bin/targets/airoha/ || true
           exit 1
         fi
-        cp -v "${files[@]}" firmware/${{ matrix.device }}/
-        ls -la firmware/${{ matrix.device }}/
+        cp -v "${files[@]}" firmware/md-ubi/
+        ls -la firmware/md-ubi/
+
+    - name: Configuration Customization - Build_XG-040G (mf-ubi)
+      env:
+        TARGET_FILE: xg-040g-mf.target
+      run: |
+        cat $TARGET_FILE xg-040g-common.config > openwrt/.config
+        cd openwrt && make defconfig
+
+    - name: Cache Build (mf-ubi)
+      uses: klever1988/cachewrtbuild@main
+      with:
+        ccache: 'true'
+        mixkey: airoha-an7583
+        prefix: 'openwrt'
+
+    - name: Build firmware (mf-ubi)
+      working-directory: ./openwrt
+      run: |
+        echo -e "$(nproc) thread build."
+        make -j$(nproc) V=s
+
+    - name: Collect firmware (mf-ubi)
+      run: |
+        mkdir -p firmware/mf-ubi
+        shopt -s nullglob
+        files=(openwrt/bin/targets/airoha/an7583/openwrt-*)
+        if [ ${#files[@]} -eq 0 ]; then
+          echo "::error::No firmware files found under openwrt/bin/targets/airoha/an7583/"
+          ls -laR openwrt/bin/targets/airoha/ || true
+          exit 1
+        fi
+        cp -v "${files[@]}" firmware/mf-ubi/
+        ls -la firmware/mf-ubi/
 
     - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
-        name: OpenWrt-${{ matrix.device }}
-        path: firmware/${{ matrix.device }}/
+        name: OpenWrt-XG-040G
+        path: firmware/
 
   release:
     needs: build
