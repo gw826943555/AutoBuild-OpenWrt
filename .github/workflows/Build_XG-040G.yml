@@ -114,13 +114,6 @@ jobs:
         cat $TARGET_FILE xg-040g-common.config > openwrt/.config
         cd openwrt && make defconfig
 
-    - name: Cache Build (mf-ubi)
-      uses: klever1988/cachewrtbuild@main
-      with:
-        ccache: 'true'
-        mixkey: airoha-an7583
-        prefix: 'openwrt'
-
     - name: Build firmware (mf-ubi)
       working-directory: ./openwrt
       run: |
