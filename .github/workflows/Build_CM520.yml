@@ -44,7 +44,7 @@ jobs:
 
         # 添加feeds
         git clone https://github.com/looong-cat/luci-app-netbird.git package/luci-app-netbird
-        git clone git@github.com:gw826943555/openwrt-shadowsocks-rust.git package/openwrt-shadowsocks-rust
+        git clone https://github.com/gw826943555/openwrt-shadowsocks-rust.git package/openwrt-shadowsocks-rust
         
     - name: Update & Install feeds
       working-directory: ./openwrt
